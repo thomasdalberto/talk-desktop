@@ -192,6 +192,12 @@ const TALK_DESKTOP = {
 	 */
 	focusTalk: () => ipcRenderer.invoke('talk:focus'),
 	/**
+	 * Toggle the temporary macOS picture-in-picture window prototype
+	 *
+	 * @return {Promise<boolean>} - Whether PiP is enabled after toggling
+	 */
+	togglePip: () => ipcRenderer.invoke('talk:pip:toggle'),
+	/**
 	 * Show the callbox window
 	 *
 	 * @param {object} params - Callbox parameters

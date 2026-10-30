@@ -282,6 +282,47 @@ app.whenReady().then(async () => {
 
 	ipcMain.handle('talk:focus', async () => focusMainWindow())
 
+	// Temporary macOS PiP window-management prototype.
+	// This does not change the Talk UI yet.
+	let pipOriginalBounds = null
+
+	ipcMain.handle('talk:pip:toggle', () => {
+		if (!isMac || !mainWindow || mainWindow.isDestroyed()) {
+			return false
+		}
+
+		if (pipOriginalBounds) {
+			// Restore the normal Talk window.
+			mainWindow.setAlwaysOnTop(false)
+			mainWindow.setVisibleOnAllWorkspaces(false)
+			mainWindow.setMinimumSize(600, 400)
+			mainWindow.setBounds(pipOriginalBounds)
+
+			pipOriginalBounds = null
+			return false
+		}
+
+		// Remember the original position and size.
+		pipOriginalBounds = mainWindow.getBounds()
+
+		// Resize to a compact floating window.
+		mainWindow.setMinimumSize(240, 160)
+		mainWindow.setBounds({
+			x: pipOriginalBounds.x,
+			y: pipOriginalBounds.y,
+			width: 360,
+			height: 240,
+		})
+
+		mainWindow.setAlwaysOnTop(true, 'floating')
+
+		mainWindow.setVisibleOnAllWorkspaces(true, {
+			visibleOnFullScreen: true,
+		})
+
+		return true
+	})
+
 	ipcMain.handle('authentication:openLoginWebView', async (event, serverUrl, user) => openLoginWebView(mainWindow, serverUrl, user))
 
 	ipcMain.handle('authentication:login', async (event, newAppData) => {

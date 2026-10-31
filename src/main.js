@@ -123,6 +123,14 @@ ipcMain.handle('app:getDesktopCapturerSources', async () => {
 let isInWindowRelaunch = false
 
 app.whenReady().then(async () => {
+	if (isMac) {
+		console.log('[PiP debug] Camera:',
+			systemPreferences.getMediaAccessStatus('camera'))
+
+		console.log('[PiP debug] Microphone:',
+			systemPreferences.getMediaAccessStatus('microphone'))
+	}
+
 	await loadAppConfig()
 	await runMigrations()
 

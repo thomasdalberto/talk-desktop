@@ -26,3 +26,154 @@
 a[href="#"] .button-vue__wrapper {
 	pointer-events: none;
 }
+
+/* Experimental macOS compact call layout. */
+
+.talk-desktop--pip {
+	#header,
+	#app-navigation-vue,
+	.main-view > .top-bar {
+		display: none !important;
+	}
+
+	#content {
+		margin-top: 0 !important;
+		height: 100%;
+	}
+
+	#content-vue,
+	#app-content-vue,
+	.main-view {
+		width: 100%;
+		height: 100%;
+		min-width: 0;
+		min-height: 0;
+	}
+
+	#app-content-vue,
+	.main-view {
+		overflow: hidden !important;
+	}
+
+	#call-container {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		min-width: 0;
+		min-height: 0;
+		overflow: hidden;
+	}
+
+	/* Video occupies the space above the call controls. */
+	#call-container > #videos {
+		position: absolute !important;
+		inset: 0 0 54px 0 !important;
+		width: 100%;
+		height: auto !important;
+		min-width: 0;
+		min-height: 0;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+
+	/* Hide the participant stripe, including local preview. */
+	#videos .grid-main-wrapper {
+		display: none !important;
+	}
+
+	/* Fill the video presentation area. */
+	#videos .video__promoted,
+	#videos .video__promoted > .video-container {
+		box-sizing: border-box;
+		width: 100%;
+		height: 100%;
+		min-width: 0;
+		min-height: 0;
+		max-width: none;
+		max-height: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+
+	#videos .video__promoted .videoWrapper {
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+	#videos .video__promoted video {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover !important;
+	}
+
+	/* Preserve the existing bottom call controls. */
+	#call-container > .bottom-bar {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		flex: 0 0 auto;
+	}
+
+	/* Compact waiting state. */
+	#call-container:has(> .empty-call-view) > #videos {
+		visibility: hidden;
+	}
+
+	#call-container > .empty-call-view {
+		position: absolute;
+		inset: 0 0 54px 0;
+		z-index: 1;
+		display: flex !important;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		width: 100%;
+		height: auto;
+		min-height: 0;
+		box-sizing: border-box;
+		padding: 12px;
+		overflow: hidden;
+	}
+
+	.empty-call-view__icon,
+	.empty-call-view .emptycontent-additional,
+	.empty-call-view button {
+		display: none !important;
+	}
+
+	.empty-call-view h2 {
+		font-size: 13px;
+		line-height: 1.4;
+		font-weight: 500;
+		text-align: center;
+		margin: 0;
+		padding: 8px;
+	}
+
+	/* Restore button. */
+	.pip-restore-button {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		z-index: 1000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		border: none;
+		border-radius: 8px;
+		background: rgb(0 0 0 / 60%);
+		color: white;
+		cursor: pointer;
+		-webkit-app-region: no-drag;
+	}
+
+	.pip-restore-button:hover {
+		background: rgb(0 0 0 / 85%);
+	}
+}
